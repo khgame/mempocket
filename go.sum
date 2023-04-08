@@ -8,8 +8,8 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f h1:lO4WD4F/rVNCu3HqELle0jiPLLBs70cWOduZpkS1E78=
 github.com/gomodule/redigo v1.8.9 h1:Sl3u+2BI/kk+VEatbj0scLdrFhjPmbxOc1myhDP41ws=
 github.com/json-iterator/go v1.1.12 h1:PV8peI4a0ysnczrg+LtxykD8LfKY9ML6u2jnxaEnrnM=
-github.com/khgame/memstore v0.0.0-20230408121322-ccf8144d40d8 h1:Wgig7faNmB7G0Xf+74c4l1k6dB3YUTd+TZw0RqsgtNc=
-github.com/khgame/memstore v0.0.0-20230408121322-ccf8144d40d8/go.mod h1:+R0ddBc1w6nxtmgvHgY5NruP2nNRFbw6i2Uu2eLvjnk=
+github.com/khgame/memstore v0.0.0-20230408170449-08a1380123bd h1:vAp8OszdgM/Bi2i1E1F6JKridarUdNwLQ3e7SzIZnMo=
+github.com/khgame/memstore v0.0.0-20230408170449-08a1380123bd/go.mod h1:+R0ddBc1w6nxtmgvHgY5NruP2nNRFbw6i2Uu2eLvjnk=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 h1:ZqeYNhU3OHLH3mGKHDcjJRFFRrJa6eAM5H+CtDdOsPc=
 github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9Gz0M=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

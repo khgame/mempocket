@@ -18,6 +18,46 @@ A fungible token (FT) is a token that can be easily replaced.
 tpocket can be used to implement a fungible token system for in-game currency. For example, tpocket can 
 be used to manage resources such as gold, experience points, and energy.
 
+usage
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+	
+    "github.com/khgame/memstore"
+    "github.com/khgame/tpocket"
+)
+
+var (
+    weaponPocket tpocket.FTPocket
+)
+
+// SetWeapon - set weapon to user
+func SetWeapon(ctx context.Context, user string, weaponPresetId int64, count int64) error {
+    ft := tpocket.SealFT(weaponPresetId)
+    ft.Quantity = count // set quantity to 100
+    if err := weaponPocket.Set(ctx, user, ft); err != nil {
+        return err
+    }
+    return nil
+}
+// initialize pocket
+func main() {
+    // init pocket
+    app := "game1"
+    pocketName := "user_weapon"
+    persistKey := fmt.Sprintf("%s:%s", app, pocketName)
+    
+    // create a storage
+    storage := memstore.NewInMemoryStorage[tpocket.FT](persistKey)
+    pocket = tpocket.MakeFTPocket(context.Background(), app, pocketName, storage)
+}
+```
+
+
 ### NFT
 
 A non-fungible token (NFT) is a unique token that cannot be replaced or exchanged for another token. 

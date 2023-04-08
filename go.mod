@@ -3,7 +3,7 @@ module gihub.com/khgame/tpocket
 go 1.19
 
 require (
-	github.com/khgame/memstore v0.0.0-20230408121322-ccf8144d40d8
+	github.com/khgame/memstore v0.0.0-20230408170449-08a1380123bd
 	github.com/stretchr/testify v1.7.0
 )
 
