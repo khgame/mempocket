@@ -20,7 +20,6 @@ type (
 
 // Pocket : app_id:pocket_name
 type Pocket[T memstore.StorableType] struct {
-
 	// AppID - the app id of this pocket, should be unique
 	// generally, it's an application id be assigned by the platform
 	// e.g. "com.khgame.001"

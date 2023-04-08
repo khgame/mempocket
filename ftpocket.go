@@ -2,20 +2,13 @@ package tpocket
 
 import (
 	"context"
+
 	"github.com/khgame/memstore"
 )
 
 // FTPocket : app_id:pocket_name
 // user -->|pid| { pid, quantity } ...
 type FTPocket Pocket[FT]
-
-func MakeFTPocket(ctx context.Context, appID string, name string, storage memstore.Storage[FT]) FTPocket {
-	return FTPocket{
-		AppID:      appID,
-		PocketName: name,
-		storage:    storage,
-	}
-}
 
 // Get - get ft from pocket
 func (p *FTPocket) Get(ctx context.Context, user string, pid PresetID) (ft FT, err error) {
@@ -46,7 +39,7 @@ func (p *FTPocket) DoContract(ctx context.Context, user string, pid PresetID, co
 	query := SealFT(pid)
 	return p.storage.Update(user, query.StoreName(), func(ft *FT) (*FT, error) {
 		if ft == nil {
-			return nil, nil
+			ft = &query
 		}
 		if ft.Contracts == nil {
 			ft.Contracts = make(map[string]ContractRuntime)
@@ -67,4 +60,12 @@ func (p *FTPocket) DoContract(ctx context.Context, user string, pid PresetID, co
 // Set - set ft to pocket
 func (p *FTPocket) Set(ctx context.Context, user string, v FT) error {
 	return p.storage.Set(user, &v)
+}
+
+func MakeFTPocket(ctx context.Context, appID string, name string, storage memstore.Storage[FT]) FTPocket {
+	return FTPocket{
+		AppID:      appID,
+		PocketName: name,
+		storage:    storage,
+	}
 }

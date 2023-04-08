@@ -1,14 +1,14 @@
 package tpocket_test
 
 import (
+	"testing"
+
 	"gihub.com/khgame/tpocket"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 // Test_FT_Seal tests the seal method of FT type with testify
 func Test_FT_Seal(t *testing.T) {
-
 	ft := tpocket.SealFT(1)
 	assert.Equal(t, tpocket.FT{
 		PID: 1,
