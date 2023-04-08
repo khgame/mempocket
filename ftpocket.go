@@ -1,29 +1,15 @@
 package tpocket
 
 import (
+	"context"
 	"github.com/khgame/memstore"
 )
 
 // FTPocket : app_id:pocket_name
 // user -->|pid| { pid, quantity } ...
-type FTPocket struct {
+type FTPocket Pocket[FT]
 
-	// AppID - the app id of this pocket, should be unique
-	// generally, it's an application id be assigned by the platform
-	// e.g. "com.khgame.001"
-	AppID string `json:"app_id"`
-
-	// pocket name - the usage of this pocket, should be unique in an app
-	// e.g. "resource", "items", "barn", "exp", "coin"
-	PocketName string `json:"name"`
-
-	// storage - the ft pocket embed storage and provide high level api
-	// to operate it. the implementation of memstore.Storage should be injected
-	// by the caller.
-	storage memstore.Storage[FT]
-}
-
-func MakeTPocket(appID string, name string, storage memstore.Storage[FT]) FTPocket {
+func MakeFTPocket(ctx context.Context, appID string, name string, storage memstore.Storage[FT]) FTPocket {
 	return FTPocket{
 		AppID:      appID,
 		PocketName: name,
@@ -32,7 +18,7 @@ func MakeTPocket(appID string, name string, storage memstore.Storage[FT]) FTPock
 }
 
 // Get - get ft from pocket
-func (p *FTPocket) Get(user string, pid PresetID) (ft FT, err error) {
+func (p *FTPocket) Get(ctx context.Context, user string, pid PresetID) (ft FT, err error) {
 	ft = SealFT(pid)
 	if err = p.storage.Get(user, &ft); err != nil {
 		return ft, err
@@ -40,13 +26,10 @@ func (p *FTPocket) Get(user string, pid PresetID) (ft FT, err error) {
 	return ft, nil
 }
 
-// Set - set ft to pocket
-func (p *FTPocket) Set(user string, ft FT) error {
-	return p.storage.Set(user, &ft)
-}
-
 // Incr - incr ft quantity
-func (p *FTPocket) Incr(user string, amount FT) error {
+func (p *FTPocket) Incr(ctx context.Context, user string, pid PresetID, quantity int64) error {
+	amount := SealFT(pid)
+	amount.Quantity = quantity
 	return p.storage.Update(user, amount.StoreName(), func(ft *FT) (*FT, error) {
 		if ft == nil {
 			return &amount, nil
@@ -54,4 +37,34 @@ func (p *FTPocket) Incr(user string, amount FT) error {
 		ft.Quantity += amount.Quantity
 		return ft, nil
 	})
+}
+
+// DoContract - do contract
+func (p *FTPocket) DoContract(ctx context.Context, user string, pid PresetID, contractID string,
+	execute func(runtime *ContractRuntime) (*ContractRuntime, error),
+) error {
+	query := SealFT(pid)
+	return p.storage.Update(user, query.StoreName(), func(ft *FT) (*FT, error) {
+		if ft == nil {
+			return nil, nil
+		}
+		if ft.Contracts == nil {
+			ft.Contracts = make(map[string]ContractRuntime)
+		}
+		runtime, ok := ft.Contracts[contractID]
+		if !ok {
+			runtime = make(ContractRuntime)
+		}
+		newRuntime, err := execute(&runtime)
+		if err != nil {
+			return nil, err
+		}
+		ft.Contracts[contractID] = *newRuntime
+		return ft, nil
+	})
+}
+
+// Set - set ft to pocket
+func (p *FTPocket) Set(ctx context.Context, user string, v FT) error {
+	return p.storage.Set(user, &v)
 }
