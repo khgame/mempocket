@@ -25,9 +25,11 @@ type Pocket[T memstore.StorableType] struct {
 	// e.g. "com.khgame.001"
 	AppID string `json:"app_id"`
 
-	// pocket name - the usage of this pocket, should be unique in an app
+	// Meta - the meta info of this pocket, it's customized by the caller
+	// in practice, it can be a name of the pocket, or record the persist
+	// key of the related storage
 	// e.g. "resource", "items", "barn", "exp", "coin"
-	PocketName string `json:"name"`
+	Meta string `json:"name"`
 
 	// storage - the ft pocket embed storage and provide high level api
 	// to operate it. the implementation of memstore.Storage should be injected

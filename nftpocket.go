@@ -103,14 +103,14 @@ func (p *NFTPocket) Update(ctx context.Context, user string, nftID NftID, fnUpda
 	return p.storage.Update(user, SealNFT(nftID).StoreName(), fnUpdate)
 }
 
-func MakeNFTPocket(ctx context.Context, appID string, name string,
+func MakeNFTPocket(ctx context.Context, appID string, metaStr string,
 	storage memstore.Storage[NFT], systemFTPocket *FTPocket,
 ) NFTPocket {
 	return NFTPocket{
 		Pocket: Pocket[NFT]{
-			AppID:      appID,
-			PocketName: name,
-			storage:    storage,
+			AppID:   appID,
+			Meta:    metaStr,
+			storage: storage,
 		},
 		systemFTPocket: systemFTPocket,
 	}
