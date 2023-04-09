@@ -1,4 +1,4 @@
-module gihub.com/khgame/tpocket
+module github.com/khgame/tpocket
 
 go 1.19
 

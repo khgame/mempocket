@@ -3,7 +3,7 @@ package tpocket_test
 import (
 	"testing"
 
-	"gihub.com/khgame/tpocket"
+	"github.com/khgame/tpocket"
 	"github.com/stretchr/testify/assert"
 )
 

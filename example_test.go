@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"gihub.com/khgame/tpocket"
 	"github.com/khgame/memstore"
+	"github.com/khgame/tpocket"
 )
 
 var weaponPocket tpocket.FTPocket
